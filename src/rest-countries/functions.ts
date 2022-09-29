@@ -1,5 +1,5 @@
 import axios from "axios";
-import { RestCountry } from "./models";
+import { RestCountry } from "./types";
 
 const REST_API_URL = "https://restcountries.com/v3.1";
 
