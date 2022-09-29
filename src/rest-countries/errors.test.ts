@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
-import { Request } from "express";
+import { Request, Response } from "express";
 import { handleHttpError } from "./errors";
 
 const mockResponse = () => {
-  const res: any = {};
+  const res: Partial<Response> = {};
   res.status = jest.fn().mockReturnValue(res);
   res.send = jest.fn().mockReturnValue(res);
   return res;
@@ -29,7 +29,7 @@ describe("handleHttpError", () => {
       }
     );
 
-    await handleHttpError(error, req, res, next);
+    await handleHttpError(error, req, res as Response, next);
     expect(res.status).toHaveBeenCalledWith(404);
     expect(res.send).toHaveBeenCalledWith("Test status text");
   });
@@ -37,7 +37,7 @@ describe("handleHttpError", () => {
   it("should pass other errors to next", async () => {
     const error = new Error("Test error");
 
-    await handleHttpError(error, req, res, next);
+    await handleHttpError(error, req, res as Response, next);
     expect(next).toHaveBeenCalledWith(error);
   });
 });
